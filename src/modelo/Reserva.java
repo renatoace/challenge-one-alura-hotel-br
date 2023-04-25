@@ -1,6 +1,5 @@
 package modelo;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 public class Reserva {
@@ -33,7 +32,13 @@ public class Reserva {
 
 
 
-	public Integer getId() {
+	public Reserva() {
+		// TODO Auto-generated constructor stub
+	}
+
+
+
+	public int getId() {
 		return id;
 	}
 
