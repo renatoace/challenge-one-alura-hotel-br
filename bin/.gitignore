@@ -1,8 +1,6 @@
 /controller/
-/imagenes/
-/modelo/
-/views/
-/factory/
 /dao/
+/factory/
+/modelo/
 /test/
-/OperacaoComView.class
+/views/

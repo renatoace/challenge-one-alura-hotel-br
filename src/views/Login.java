@@ -92,7 +92,13 @@ public class Login extends JFrame {
 		btnexit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.exit(0);
+				Object[] options = { "   Sim   ", "   Não   " };
+				int n = JOptionPane.showOptionDialog(null, " Deseja realmente sair do programa ?", "Sair do Programa",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+
+				if (n == 0) {
+					System.exit(0);
+				}
 			}
 
 			@Override
@@ -266,15 +272,10 @@ public class Login extends JFrame {
 
 	
 	private Boolean buscarNome(String usuarioDigitado,String senhaDigitada) {
-		System.out.println("Cheguei aqui.");
+		System.out.println("Verificando usuario e senha no banco de dados.");
 		return usuarioController.autenticacaoUsario(usuarioDigitado, senhaDigitada);
 	}
 
-	private List<Usuario> listar() {
-		
-		return this.usuarioController.listar();
-		
-	}
 
 	// Código que permite movimentar a janela pela tela seguindo a posição de "x" e
 	// "y"

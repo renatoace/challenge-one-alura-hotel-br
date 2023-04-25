@@ -10,5 +10,8 @@
 	<classpathentry kind="lib" path="C:/Users/Renato M S d&apos;Amore/workspace/challenge-one-alura-hotel-br-repositorio-base/JARS/jcalendar-1.4.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Renato M S d&apos;Amore/workspace/challenge-one-alura-hotel-br-repositorio-base/JARS/mchange-commons-java-0.2.16.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Renato M S d&apos;Amore/workspace/challenge-one-alura-hotel-br-repositorio-base/JARS/mysql-connector-java-8.0.17.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Renato M S d&apos;Amore/workspace/challenge-one-alura-hotel-br-repositorio-base/JARS/joda-time-2.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Renato M S d&apos;Amore/workspace/challenge-one-alura-hotel-br-repositorio-base/JARS/joda-time-2.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Renato M S d&apos;Amore/workspace/challenge-one-alura-hotel-br-repositorio-base/JARS/joda-time-2.4-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

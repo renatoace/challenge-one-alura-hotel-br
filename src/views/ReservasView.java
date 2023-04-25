@@ -1,29 +1,37 @@
 package views;
 
-import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.SystemColor;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.ImageIcon;
 import java.awt.Color;
-import javax.swing.JTextField;
-import com.toedter.calendar.JDateChooser;
+import java.awt.EventQueue;
 import java.awt.Font;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import java.text.Format;
+import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.awt.Toolkit;
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+
+import com.toedter.calendar.JDateChooser;
+
+import controller.DiariaController;
+import controller.ReservaController;
+import modelo.Reserva;
 
 
 @SuppressWarnings("serial")
@@ -38,6 +46,10 @@ public class ReservasView extends JFrame {
 	private JLabel labelExit;
 	private JLabel lblValorSimbolo; 
 	private JLabel labelAtras;
+	private JPanel panel;
+	
+	private ReservaController reservaController;
+	private DiariaController diariaController;
 
 	/**
 	 * Launch the application.
@@ -73,9 +85,12 @@ public class ReservasView extends JFrame {
 		setLocationRelativeTo(null);
 		setUndecorated(true);
 		
+		this.reservaController = new ReservaController();
+		this.diariaController = new DiariaController();
+		
 
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setBorder(null);
 		panel.setBackground(Color.WHITE);
 		panel.setBounds(0, 0, 910, 560);
@@ -108,13 +123,13 @@ public class ReservasView extends JFrame {
 		txtDataE.getCalendarButton().setBounds(268, 0, 21, 33);
 		txtDataE.setBackground(Color.WHITE);
 		txtDataE.setBorder(new LineBorder(SystemColor.window));
-		txtDataE.setDateFormatString("yyyy-MM-dd");
+		txtDataE.setDateFormatString("dd-MM-yyyy");
 		txtDataE.setFont(new Font("Roboto", Font.PLAIN, 18));
 		panel.add(txtDataE);
 		
-		lblValorSimbolo = new JLabel("$");
+		lblValorSimbolo = new JLabel("R$");
 		lblValorSimbolo.setVisible(false);
-		lblValorSimbolo.setBounds(121, 332, 17, 25);
+		lblValorSimbolo.setBounds(82, 332, 26, 25);
 		lblValorSimbolo.setForeground(SystemColor.textHighlight);
 		lblValorSimbolo.setFont(new Font("Roboto", Font.BOLD, 17));
 		
@@ -142,9 +157,11 @@ public class ReservasView extends JFrame {
 		txtDataS.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				//Ativa o evento, após o usuário selecionar as datas, o valor da reserva deve ser calculado
+				calcularDiarias(evt);
+				
 			}
 		});
-		txtDataS.setDateFormatString("yyyy-MM-dd");
+		txtDataS.setDateFormatString("dd-MM-yyyy");
 		txtDataS.getCalendarButton().setBackground(SystemColor.textHighlight);
 		txtDataS.setBorder(new LineBorder(new Color(255, 255, 255), 0));
 		panel.add(txtDataS);
@@ -155,7 +172,7 @@ public class ReservasView extends JFrame {
 		txtValor.setBackground(SystemColor.text);
 		txtValor.setHorizontalAlignment(SwingConstants.CENTER);
 		txtValor.setForeground(Color.BLACK);
-		txtValor.setBounds(78, 328, 43, 33);
+		txtValor.setBounds(109, 328, 128, 33);
 		txtValor.setEditable(false);
 		txtValor.setFont(new Font("Roboto Black", Font.BOLD, 17));
 		txtValor.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -293,11 +310,22 @@ public class ReservasView extends JFrame {
 		
 		JPanel btnProximo = new JPanel();
 		btnProximo.addMouseListener(new MouseAdapter() {
+			/**
+			 *
+			 */
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (ReservasView.txtDataE.getDate() != null && ReservasView.txtDataS.getDate() != null) {		
-					RegistroHospede registro = new RegistroHospede();
+				if (ReservasView.txtDataE.getDate() != null && ReservasView.txtDataS.getDate() != null) {	
+					
+					
+					
+					Integer idReserva = salvar();
+					
+					System.out.println(idReserva);
+					RegistroHospede registro = new RegistroHospede(idReserva);
+					
 					registro.setVisible(true);
+					
 				} else {
 					JOptionPane.showMessageDialog(null, "Deve preencher todos os campos.");
 				}
@@ -315,6 +343,31 @@ public class ReservasView extends JFrame {
 		lblSeguinte.setFont(new Font("Roboto", Font.PLAIN, 18));
 		lblSeguinte.setBounds(0, 0, 122, 35);
 		btnProximo.add(lblSeguinte);
+	}
+	
+	protected Integer salvar() {
+		Reserva reserva = new Reserva(txtDataE.getDate(), txtDataS.getDate(), Double.parseDouble(txtValor.getText()), txtFormaPagamento.getSelectedItem().toString());
+		this.reservaController.salvar(reserva);
+		
+		JOptionPane.showMessageDialog(this, "Salvo com sucesso!");
+		return reserva.getId();
+	}
+
+	private void calcularDiarias(PropertyChangeEvent evt) {
+		if(txtDataE.getDate()!=null) {
+			DateTime dataInicial = new DateTime(txtDataE.getDate());
+			DateTime dataFinal = new DateTime(txtDataS.getDate());
+			int dias = Days.daysBetween(dataInicial, dataFinal).getDays();
+
+			//buscando o valor de uma diaria no banco de dados.
+			double valorDiaria = diariaController.valorDiaria();
+			
+			System.out.println(dias * valorDiaria);
+			txtValor.setText(Double.toString(dias * valorDiaria));// setando o valor das diarias calculando quantos dias
+			
+			
+		}
+		
 	}
 
 	//Código que permite movimentar a janela pela tela seguindo a posição de "x" e "y"	
