@@ -25,7 +25,7 @@ import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
 
 import controller.HospedeController;
-import modelo.Hostepe;
+import modelo.Hospede;
 import modelo.Reserva;
 
 @SuppressWarnings("serial")
@@ -375,7 +375,7 @@ public class RegistroHospede extends JFrame {
 	}
 	
 	private void salvar(Reserva reserva) {
-		Hostepe hospede = new Hostepe(txtNome.getText(), txtSobrenome.getText(), txtDataN.getDate(), txtNacionalidade.getSelectedItem().toString(),
+		Hospede hospede = new Hospede(txtNome.getText(), txtSobrenome.getText(), txtDataN.getDate(), txtNacionalidade.getSelectedItem().toString(),
 				txtTelefone.getText());
 				
 		hospede.setIdReserva(reserva.getId());

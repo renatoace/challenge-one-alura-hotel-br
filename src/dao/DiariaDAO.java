@@ -10,11 +10,11 @@ import java.util.List;
 import modelo.Diaria;
 import modelo.Usuario;
 
-public class DiariaDao {
+public class DiariaDAO {
 
 	private Connection connection;
 	
-	public DiariaDao(Connection connection) {
+	public DiariaDAO(Connection connection) {
 		this.connection = connection;
 	}
 	

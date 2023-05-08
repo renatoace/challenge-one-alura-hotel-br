@@ -30,7 +30,7 @@ import org.joda.time.Days;
 import com.toedter.calendar.JDateChooser;
 
 import controller.DiariaController;
-import controller.ReservaController;
+import controller.ReservasController;
 import modelo.Reserva;
 
 @SuppressWarnings("serial")
@@ -47,7 +47,7 @@ public class ReservasView extends JFrame {
 	private JLabel labelAtras;
 	private JPanel panel;
 
-	private ReservaController reservaController;
+	private ReservasController reservaController;
 	private DiariaController diariaController;
 
 	/**
@@ -84,7 +84,7 @@ public class ReservasView extends JFrame {
 		setLocationRelativeTo(null);
 		setUndecorated(true);
 
-		this.reservaController = new ReservaController();
+		this.reservaController = new ReservasController();
 		this.diariaController = new DiariaController();
 
 		panel = new JPanel();

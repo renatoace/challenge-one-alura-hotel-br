@@ -2,9 +2,7 @@ package modelo;
 
 import java.util.Date;
 
-import javax.swing.JTextField;
-
-public class Hostepe {
+public class Hospede {
 	
 	private Integer id;
 	private String nome;
@@ -14,7 +12,7 @@ public class Hostepe {
 	private String telefone;
 	private Integer idReserva;
 	
-	public Hostepe(Integer id, String nome, String sobrenome, Date dataNascimento, String nacionalidade,
+	public Hospede(Integer id, String nome, String sobrenome, Date dataNascimento, String nacionalidade,
 			String telefone, Integer idReserva) {
 		this.id = id;
 		this.nome = nome;
@@ -25,7 +23,7 @@ public class Hostepe {
 		this.idReserva = idReserva;
 	}
 
-	public Hostepe(String nome, String sobrenome, Date dataNascimento, String nacionalidade, String telefone) {
+	public Hospede(String nome, String sobrenome, Date dataNascimento, String nacionalidade, String telefone) {
 		this.nome = nome;
 		this.sobrenome = sobrenome;
 		this.dataNascimento = dataNascimento;
